@@ -6,16 +6,14 @@ var KhoaPham = React.createClass({
     getName(this.props.ten);
   },
   addStudent(){
-    this.setState({tongHocvien: this.state.tongHocvien +1});
+    this.state.tongHocvien = parseInt(this.state.tongHocvien) +1;
+    this.setState(this.state);
   },
   layThongTin: function () {
     alert(this.props.children);
   },
   getInitialState(){
-    return {tongHocvien: 9};
-  },
-  getInitialState(){
-    return { active: true};
+    return {tongHocvien: this.props.tongHocvien};
   },
   handleClick: function(){
        this.setState({
@@ -28,6 +26,7 @@ var KhoaPham = React.createClass({
         <div>
           <h2 className="mauxanh">{this.props.ten} - {this.props.namsinh}</h2>
           <div>Số học viên: {this.state.tongHocvien}</div>
+          <div>aaa{this.state.sv}</div>
           <p>{this.props.children}</p>
            {/* <button onClick={this.layThongTin}>Thong tin</button>
            <button onClick={this.a}>Thong tin</button>  */}
@@ -46,11 +45,31 @@ var KhoaHoc = React.createClass({
     return(<h4>To day is 11.6</h4>)
   }
 });
-
+var InputTag = React.createClass({
+  show(){
+    var text = this.refs.sl.value;
+    alert(text);
+  },
+  render(){
+    return (
+      <div>
+        <select ref="sl">
+          <option value="1">1</option>
+          <option value="2">2</option>
+          <option value="3">3</option>
+          <option value="4">4</option>
+        </select>
+        <input type="text" ref="txt" />
+        <button onClick={this.show}>Hienthi</button>
+      </div>
+    );
+  }
+});
 ReactDOM.render(
   <div>
-      <KhoaPham ten="Tuanhv" namsinh="18.09.1993">Toi la Ha van tuan</KhoaPham>
-      <KhoaPham  ten="PhiHH" namsinh="02.01.1993">Tôi là Hà văn Phi</KhoaPham>
+      <InputTag />
+      <KhoaPham ten="Tuanhv" namsinh="18.09.1993" tongHocvien="10">Toi la Ha van tuan</KhoaPham>
+      <KhoaPham  ten="PhiHH" namsinh="02.01.1993" tongHocvien="20">Tôi là Hà văn Phi</KhoaPham>
   </div>,
   document.getElementById('root')
 );
