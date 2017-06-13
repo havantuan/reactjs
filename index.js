@@ -5,5 +5,8 @@ app.set("view engine", "ejs");
 app.set("views","./views");
 app.listen(3000);
 app.get("/", function (req, res) {
-  res.render("trangchu");
-})
+  res.render("homepage");
+});
+app.get("/test2", function (req, res) {
+  res.render("vidu2");
+});

@@ -14,9 +14,6 @@ var KhoaPham = React.createClass({
   getInitialState(){
     return {tongHocvien: 9};
   },
-  getInitialState(){
-    return { active: true};
-  },
   handleClick: function(){
        this.setState({
            active: !this.state.active
@@ -54,7 +51,7 @@ ReactDOM.render(
   </div>,
   document.getElementById('root')
 );
-{/*Test ví dụ*/}
+{/*Test ví dụ */}
 
 var Form = React.createClass({
     focusOnField: function(){
