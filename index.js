@@ -10,3 +10,10 @@ app.get("/", function (req, res) {
 app.get("/test2", function (req, res) {
   res.render("vidu2");
 });
+app.get("/test3", function (req, res) {
+  res.render("vidu3");
+});
+var mang = ["ha","van","tuan"];
+app.post("/getNotes", function (req, res){
+  res.send(mang);
+});
