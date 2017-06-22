@@ -1,9 +1,41 @@
 var list;
 var Note = React.createClass({
+  save(){
+    var note = this;
+    $.post("/update", {idSua: this.props.id, noiDung:this.refs.txt.value}, function(data){
+      list.setState({mang: data});
+      note.setState({onEdit: false});
+    });
+  },
+  cancel(){
+    this.setState({onEdit: false});
+  },
+  delete(){
+    $.post("/delete", {idXoa: this.props.id}, function(data){
+      list.setState({mang: data});
+    });
+  },
+  edit(){
+    this.setState({onEdit: true});
+  },
+  getInitialState(){
+    return {onEdit: false}
+  },
   render(){
-    return <div className="div-note">
-              {this.props.children}
-          </div>
+      if(this.state.onEdit){
+        return (<div className="div-note">
+                  <input defaultValue={this.props.children} ref="txt"/>
+                  <button onClick={this.save}>Lưu</button>
+                  <button onClick={this.cancel}>Hủy</button>
+              </div>);
+      }else {
+        return (<div className="div-note">
+                  <p>{this.props.children}</p>
+                  <button onClick={this.delete}>Xóa</button>
+                  <button onClick={this.edit}>Sửa</button>
+              </div>);
+      }
+
   }
 });
 function addDiv(){
@@ -16,12 +48,13 @@ var List = React.createClass({
       return {mang: []}
     },
     render(){
+
       return (
         <div className="div-list">
           <button onClick={addDiv}>Thêm</button>
          {
           this.state.mang.map(function (note, index){
-            return <Note key={index}>{note}</Note>
+            return <Note key={index} id={index}>{note}</Note>
           })
         }
         <div id="div-add"></div>
@@ -31,7 +64,9 @@ var List = React.createClass({
 });
 var Input = React.createClass({
   send(){
-      list.setState({mang: list.state.mang.concat(this.refs.txt.value)});
+      $.post("/add", {note: this.refs.txt.value}, function (data){
+          list.setState({mang: data});
+      });
       ReactDOM.unmountComponentAtNode(document.getElementById('div-add')) ;
   },
   render(){
@@ -41,9 +76,10 @@ var Input = React.createClass({
     </div>
   },
   componentDidMount(){
-    var list = this;
+    var that = this;
+    console.log(list);
     $.post("/getNotes", function(data) {
-        list.setState({mang: data});
+        that.setState({mang: data});
     });
   }
 
